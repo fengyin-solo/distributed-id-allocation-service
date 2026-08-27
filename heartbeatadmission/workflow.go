@@ -5,7 +5,10 @@ import "idgenerator/heartbeatpolicy"
 type Coordinator struct { gate heartbeatpolicy.Gate; labels map[string]string }
 
 func NewCoordinator(enabled bool) *Coordinator {
-	return &Coordinator{gate: heartbeatpolicy.NewGate(enabled)}
+	return &Coordinator{
+		gate:   heartbeatpolicy.NewGate(enabled),
+		labels: make(map[string]string),
+	}
 }
 
 func (c *Coordinator) Apply(key string) error {
