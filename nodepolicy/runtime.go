@@ -7,8 +7,7 @@ type ruleGate struct { blocked string }
 
 func NewGate(enabled bool) Gate {
 	if !enabled {
-		var gate *ruleGate
-		return gate
+		return nil
 	}
 	return &ruleGate{blocked: "blocked"}
 }
