@@ -12,8 +12,12 @@ func (b *Batch) Process(outcomes []error) (int, error) {
 		session, err := b.pool.Acquire()
 		if err != nil { return succeeded, err }
 		success := outcome == nil
-		defer session.Close(success)
 		if success { succeeded++ }
+		// Close promptly so the session is returned to the pool within this
+		// iteration; deferring would let open sessions accumulate until the
+		// whole batch returns, exhausting capacity mid-batch. A rejected
+		// record (success == false) is still closed, but not committed.
+		session.Close(success)
 	}
 	return succeeded, nil
 }
