@@ -18,8 +18,8 @@ func (p *Pool) Acquire() (*Session, error) {
 func (s *Session) Close(success bool) {
 	if s.closed { return }
 	s.closed = true
-	s.pool.committed++
 	s.pool.open--
+	if success { s.pool.committed++ }
 }
 
 func (p *Pool) Open() int { return p.open }
