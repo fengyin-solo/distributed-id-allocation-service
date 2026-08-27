@@ -5,7 +5,10 @@ import "idgenerator/leasepolicy"
 type Coordinator struct { gate leasepolicy.Gate; labels map[string]string }
 
 func NewCoordinator(enabled bool) *Coordinator {
-	return &Coordinator{gate: leasepolicy.NewGate(enabled)}
+	return &Coordinator{
+		gate:   leasepolicy.NewGate(enabled),
+		labels: make(map[string]string),
+	}
 }
 
 func (c *Coordinator) Apply(key string) error {
